@@ -19,7 +19,7 @@ from mayavi.modules.iso_surface import IsoSurface
 from mayavi.modules.contour_grid_plane import ContourGridPlane
 from mayavi.modules.scalar_cut_plane import ScalarCutPlane
 
-from . import datasets
+from mayavi.tests import datasets
 
 class TestContour(unittest.TestCase):
 
@@ -108,14 +108,11 @@ class TestContour(unittest.TestCase):
         self.assertEqual(ip.widget.enabled,False)
 
 
-
     def test_contour(self):
         "Test if the test fixture works"
         #Now test.
         self.check()
 
-        #from mayavi.tools.show import show
-        #show()
 
     def test_components_changed(self):
         """Test if the modules respond correctly when the components
@@ -140,6 +137,7 @@ class TestContour(unittest.TestCase):
         cp.contour = cp.contour.__class__()
         cp.cutter = cp.cutter.__class__()
         cp.actor = cp.actor.__class__()
+
         # Now check.
         self.check()
 

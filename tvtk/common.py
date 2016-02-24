@@ -93,6 +93,23 @@ def configure_input(inp, op):
         else:
             raise ValueError('Unknown input type for object %s'%op)
 
+def configure_source(obj, op):
+    """ Configure the source for vtk pipeline object obj."""
+    if is_old_pipeline():
+        if op.is_a('vtkDataSet'):
+            obj.source = op
+        else:
+            obj.source = op.output
+    else:
+        if hasattr(op, 'output_port'):
+            obj.set_source_connection(op.output_port)
+        elif op.is_a('vtkAlgorithmOutput'):
+            obj.set_source_connection(op)
+        elif op.is_a('vtkDataSet'):
+            inp.set_source_data(op)
+        else:
+            raise ValueError('Unknown source type for object %s'%op)
+
 def configure_outputs(obj, tvtk_obj):
     if is_old_pipeline():
         obj.outputs = [tvtk_obj.output]

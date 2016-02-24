@@ -129,9 +129,9 @@ class SetActiveAttribute(Filter):
             return
 
         aa = self._assign_attribute
-        self.configure_connection(aa, self.inputs[0])
+        self.configure_input(aa, self.inputs[0].outputs[0])
         self._update()
-        self._set_outputs([aa.output])
+        self._set_outputs([aa])
 
     ######################################################################
     # Non-public interface.
@@ -223,4 +223,3 @@ class SetActiveAttribute(Filter):
 
     def _cell_tensors_name_changed(self, value):
         self._set_data_name('tensors', 'cell', value)
-

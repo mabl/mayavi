@@ -167,10 +167,10 @@ class ExtractGrid(FilterBase):
             return
 
         fil = self.filter
-        self.configure_connection(fil, inputs[0])
+        self.configure_input(fil, input)
         fil.update_whole_extent()
         fil.update()
-        self._set_outputs([fil.output])
+        self._set_outputs([fil])
         self._update_limits()
         self._update_voi()
         self._update_sample_rate()

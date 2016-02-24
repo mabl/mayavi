@@ -11,7 +11,6 @@ from tvtk.api import tvtk
 
 # Local imports.
 from mayavi.core.component import Component
-from mayavi.components.common import convert_to_poly_data
 
 
 ######################################################################
@@ -64,7 +63,7 @@ class PolyDataNormals(Component):
             return
         f = self.filter
         input = self.inputs[0].outputs[0]
-        self.configure_input_data(f, convert_to_poly_data(input))
+        self.configure_input(f, input)
         f.update()
         self.outputs = [f]
 

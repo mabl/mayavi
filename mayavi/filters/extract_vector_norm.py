@@ -46,10 +46,10 @@ class ExtractVectorNorm(FilterBase):
         # By default we set the input to the first output of the first
         # input.
         fil = self.filter
-        self.configure_connection(fil, inputs[0])
+        self.configure_input(fil, inputs[0].outputs[0])
         fil.update()
         self._set_array_name(fil)
-        self._set_outputs([fil.output])
+        self._set_outputs([fil])
 
     def update_data(self):
         """Override this method to do what is necessary when upstream
@@ -85,4 +85,3 @@ class ExtractVectorNorm(FilterBase):
             ps.name = pd.vectors.name + ' magnitude'
         elif (cs is not None) and (not cs.name):
             cs.name = cd.vectors.name + ' magnitude'
-

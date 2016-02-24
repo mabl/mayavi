@@ -101,7 +101,7 @@ class ImageDataProbe(Filter):
     ######################################################################
     def setup_pipeline(self):
         """Creates the pipeline."""
-        self.configure_input_data(self.filter, self.probe_data)
+        self.configure_input(self.filter, self.probe_data)
 
     def update_pipeline(self):
         """Connect and update the pipeline."""
@@ -110,14 +110,14 @@ class ImageDataProbe(Filter):
             return
 
         fil = self.filter
-        self.configure_source_data(fil, inputs[0].outputs[0])
+        self.configure_source(fil, inputs[0].outputs[0])
         reset = False
         if self.dimensions.sum() == 0:
             reset = True
         self._setup_probe_data(reset)
         fil.update()
         self._rescale_scalars_changed(self.rescale_scalars)
-        self._set_outputs([fil.output])
+        self._set_outputs([fil])
 
     ######################################################################
     # Non-public interface.
@@ -243,7 +243,7 @@ class ImageDataProbe(Filter):
         w = fil.global_warning_display
         fil.global_warning_display = False
         fil.remove_all_inputs()
-        self.configure_input_data(fil, pd)
+        self.configure_input(fil, pd)
         fil.update_whole_extent()
         fil.update()
         self._rescale_scalars_changed(self.rescale_scalars)
@@ -253,4 +253,3 @@ class ImageDataProbe(Filter):
     def _reset_defaults_fired(self):
         self._setup_probe_data(reset=True)
         self._rescale_scalars_changed(self.rescale_scalars)
-

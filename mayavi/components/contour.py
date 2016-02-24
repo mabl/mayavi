@@ -21,8 +21,7 @@ from tvtk.api import tvtk
 # Local imports.
 from mayavi.core.component import Component
 from mayavi.core.common import error
-from mayavi.components.common \
-     import get_module_source, convert_to_poly_data
+from mayavi.components.common import get_module_source
 
 
 ######################################################################
@@ -176,7 +175,7 @@ class Contour(Component):
             self.contours = [(cr[0] + cr[1])/2]
             self.minimum_contour = cr[0]
             self.maximum_contour = cr[1]
-        self.outputs = [cf.output]
+        self.outputs = [cf]
 
     def update_data(self):
         """Override this method to do what is necessary when upstream
@@ -272,7 +271,6 @@ class Contour(Component):
             self.trait_property_changed('_data_max', rng[1],
                                         self._data_max)
 
-
     def _do_auto_contours(self):
         if not self._has_input():
             return
@@ -289,7 +287,7 @@ class Contour(Component):
         cf = self._set_contour_input()
         # This will trigger a change.
         self._auto_contours_changed(self.auto_contours)
-        self.outputs = [cf.output]
+        self.outputs = [cf]
 
     def _get_contour_filter(self):
         if self.filled_contours:
@@ -303,11 +301,7 @@ class Contour(Component):
         """
         inp = self.inputs[0].outputs[0]
         cf = self.contour_filter
-        if self.filled_contours:
-            inp = convert_to_poly_data(inp)
-            self.configure_input_data(cf, inp)
-        else:
-            self.configure_connection(cf, self.inputs[0])
+        self.configure_input(cf, inp)
         cf.update()
         return cf
 
@@ -335,4 +329,3 @@ class Contour(Component):
 
     def _get__default_contour(self):
         return (self._data_min + self._data_max)*0.5
-

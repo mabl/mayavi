@@ -179,7 +179,7 @@ class Glyph(Component):
         self._scale_mode_changed(self.scale_mode)
 
         # Set our output.
-        tvtk_common.configure_outputs(self, self.glyph)
+        tvtk_common.configure_input(self.glyph, self.inputs[0].outputs[0])
         self.pipeline_changed = True
 
     def update_data(self):
@@ -222,10 +222,10 @@ class Glyph(Component):
     # Non-public methods.
     ######################################################################
     def _update_source(self):
-        self.configure_source_data(self.glyph, self.glyph_source.outputs[0])
+        tvtk_common.configure_source(self.glyph, self.glyph_source.outputs[0])
 
     def _glyph_source_changed(self, value):
-        self.configure_source_data(self.glyph, value.outputs[0])
+        tvtk_common.configure_source(self.glyph, value.outputs[0])
 
     def _color_mode_changed(self, value):
         if len(self.inputs) == 0:
@@ -270,10 +270,10 @@ class Glyph(Component):
             return
         if value:
             mask = self.mask_points
-            tvtk_common.configure_input(mask, inputs[0].outputs[0])
-            self.configure_connection(self.glyph, mask)
+            self.configure_input(mask, inputs[0].outputs[0])
+            self.configure_input(self.glyph, mask)
         else:
-            self.configure_connection(self.glyph, inputs[0])
+            self.configure_input(self.glyph, inputs[0].outputs[0])
         self.glyph.update()
 
     def _glyph_type_changed(self, value):

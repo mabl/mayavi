@@ -166,4 +166,3 @@ class Filter(Source):
         for input in added:
             input.on_trait_event(self.update_pipeline, 'pipeline_changed')
             input.on_trait_event(self.update_data, 'data_changed')
-
