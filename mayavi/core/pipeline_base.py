@@ -186,6 +186,10 @@ class PipelineBase(Base):
         """ Configure the inp using op."""
         tvtk_common.configure_input(inp, op)
 
+    def configure_source(self, inp, op):
+        """ Configure the source of inp using op."""
+        tvtk_common.configure_source(inp, op)
+
     def configure_source_data(self, obj, data):
         """ Configure the source data for vtk pipeline object obj."""
         tvtk_common.configure_source_data(obj, data)

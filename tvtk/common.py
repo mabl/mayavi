@@ -106,7 +106,7 @@ def configure_source(obj, op):
         elif op.is_a('vtkAlgorithmOutput'):
             obj.set_source_connection(op)
         elif op.is_a('vtkDataSet'):
-            inp.set_source_data(op)
+            obj.set_source_data(op)
         else:
             raise ValueError('Unknown source type for object %s'%op)
 

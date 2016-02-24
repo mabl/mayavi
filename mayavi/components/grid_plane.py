@@ -103,7 +103,7 @@ class GridPlane(Component):
         """
         if len(self.inputs) == 0:
             return
-        input = self.inputs[0].outputs[0]
+        input = self.inputs[0].outputs[0].output
         plane = None
         if input.is_a('vtkStructuredGrid'):
             plane = tvtk.StructuredGridGeometryFilter()
@@ -117,7 +117,7 @@ class GridPlane(Component):
             error(msg)
             raise TypeError(msg)
 
-        self.configure_connection(plane, self.inputs[0])
+        self.configure_connection(plane, self.inputs[0].outputs[0])
         self.plane = plane
         self.plane.update()
         self.outputs = [plane]

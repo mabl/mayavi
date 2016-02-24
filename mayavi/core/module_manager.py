@@ -289,7 +289,7 @@ class ModuleManager(Base):
     def _setup_scalar_data(self):
         """Computes the scalar range and an appropriate name for the
         lookup table."""
-        input = self.source.outputs[0]
+        input = self._get_input()
         ps = input.point_data.scalars
         cs = input.cell_data.scalars
 
@@ -312,7 +312,7 @@ class ModuleManager(Base):
         data_attr.config_lut(self.scalar_lut_manager)
 
     def _setup_vector_data(self):
-        input = self.source.outputs[0]
+        input = self._get_input()
         pv = input.point_data.vectors
         cv = input.cell_data.vectors
 
@@ -345,3 +345,11 @@ class ModuleManager(Base):
     def _menu_helper_default(self):
         from mayavi.core.traits_menu import ModuleMenuHelper
         return ModuleMenuHelper(object=self)
+
+    def _get_input(self):
+        obj = self.source.outputs[0]
+        if hasattr(obj, 'is_a'):
+            if obj.is_a('vtkDataSet'):
+                return obj
+        elif hasattr(obj, 'output'):
+            return obj.output
